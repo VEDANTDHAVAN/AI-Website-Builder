@@ -1,4 +1,4 @@
-import { gemini, openai, createAgent } from "@inngest/agent-kit";
+import { openai, createAgent } from "@inngest/agent-kit";
 
 import { inngest } from "./client";
 
@@ -10,7 +10,7 @@ export const helloWorld = inngest.createFunction(
     const codeAgent = createAgent({
       name: "code-agent",
       system: "You are an expert Next.js developer. You write readable and maintainable code. You write simple next.js & react snippets.",
-      model: gemini({ model: "gemini-1.5-flash" }),
+      model: openai({ model: "gpt-4o" }),
     });
 
     const { output } = await codeAgent.run(
