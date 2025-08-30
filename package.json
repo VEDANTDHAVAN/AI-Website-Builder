@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@e2b/code-interpreter": "^2.0.0",
     "@hookform/resolvers": "^5.1.1",
     "@inngest/agent-kit": "^0.8.4",
     "@prisma/client": "^6.10.1",
