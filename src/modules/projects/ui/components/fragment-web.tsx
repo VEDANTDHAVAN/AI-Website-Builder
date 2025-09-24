@@ -15,11 +15,16 @@ export function FragmentWeb({data}:Props ) {
     setFragmentKey((prev) => prev + 1);
   }
   const handleCopy = () => {
-    navigator.clipboard.writeText(data.sandBoxUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-  
+    navigator.clipboard.writeText(data.sandBoxUrl)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch((error) => {
+        console.error('Failed to copy URL:', error);
+        // Optionally show user feedback about copy failure
+      });
+  }  
   return (
     <div className="flex flex-col w-full h-full">
      <div className="p-2 border-b bg-sidebar flex items-center gap-x-2">
