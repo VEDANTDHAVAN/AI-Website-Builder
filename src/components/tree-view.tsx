@@ -46,16 +46,21 @@ const Tree = ({ item, selectedValue, onSelect, parentPath}: TreeProps) => {
  const [name, ...items] = Array.isArray(item) ? item : [item];
  const currentPath = parentPath ? `${parentPath}/${name}` : name;
 
- if(!items.length) {
-  //It is a file
+if (!items.length) {
+  // It is a file
   const isSelected = selectedValue === currentPath;
 
   return (
-    <SidebarMenuButton isActive={isSelected} className="data-[active=true]:bg-transparent"
-     onClick={() => onSelect?.(currentPath)}>
-     <FileIcon /> <span className="truncate">{name}</span>
-    </SidebarMenuButton>
-  )
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        isActive={isSelected}
+        className="data-[active=true]:bg-transparent"
+        onClick={() => onSelect?.(currentPath)}
+      >
+        <FileIcon /> <span className="truncate">{name}</span>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
  }
 
  //It is a folder
