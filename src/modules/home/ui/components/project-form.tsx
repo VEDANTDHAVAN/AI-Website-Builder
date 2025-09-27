@@ -105,8 +105,8 @@ export const ProjectForm = () => {
      </form>
      <div className="flex-wrap justify-center gap-2 hidden md:flex max-w-3xl">
       {PROJECT_TEMPLATES.map((template) => (
-        <Button key={template.title} variant="secondary" size="sm" 
-        className="bg-green-200 cursor-pointer hover:text-black text-gray-800 dark:bg-sidebar"
+        <Button key={template.title} variant="outline" size="sm" 
+        className="cursor-pointer"
          onClick={() => onSelect(template.prompt)}
         >
          {template.emoji} {template.title}
