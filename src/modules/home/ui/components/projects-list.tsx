@@ -17,7 +17,7 @@ export const ProjectsList = () => {
        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {projects?.length === 0 && (
             <div className="col-span-full text-center">
-             <p className="text-sm text-muted-foreground">No projects found!!</p>
+             <p className="text-sm">No projects found!!</p>
             </div>
         )}
         {projects?.map((project) => (
@@ -29,7 +29,7 @@ export const ProjectsList = () => {
                <Image src="/logo2.svg" alt="ved.dev" width={32} height={32} className="object-contain" />
                <div className="flex flex-col">
                 <h3 className="truncate font-medium">{project.name}</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-accent-foreground">
                  {formatDistanceToNow(project.updatedAt, {addSuffix: true})}
                 </p> 
                </div>
