@@ -11,10 +11,10 @@ const Page = () => {
      <div className="flex flex-col items-center">
       <Image src="/logo2.svg" alt="Ved.Dev" width={50} height={50} className="hidden md:block" />
      </div>
-     <h1 className="text-2xl text-white md:text-5xl font-bold text-center">
+     <h1 className="text-2xl md:text-5xl font-bold text-center">
       Build anything with ved.dev
      </h1>
-     <p className="text-lg text-green-100 md:text-xl text-center">
+     <p className="text-lg text-muted-foreground md:text-xl text-center">
       Create websites and apps by simply prompting to AI
      </p>
      <div className="max-w-3xl mx-auto w-full">
