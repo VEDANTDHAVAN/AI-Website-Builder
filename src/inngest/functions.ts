@@ -6,6 +6,7 @@ import { getSandbox, lastAssistantTextMessageContent, parseAgentOutput } from ".
 import { z } from "zod";
 import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "@/prompt";
 import { prisma } from "@/lib/prisma";
+import { SANDBOX_TIMEOUT } from "./types";
 
 interface AgentState {
   summary: string;
@@ -19,6 +20,7 @@ export const codeAgentFunction = inngest.createFunction(
     // Create a new agent with a system prompt (you can add optional tools, too)
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("lovable-test1");
+      await sandbox.setTimeout(SANDBOX_TIMEOUT);
       return sandbox.sandboxId;
     })
 
@@ -29,8 +31,9 @@ export const codeAgentFunction = inngest.createFunction(
         projectId: event.data.projectId,
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
+      take: 5,
      });
 
      for(const message of messages) {
@@ -41,7 +44,7 @@ export const codeAgentFunction = inngest.createFunction(
       })
      }
 
-     return formattedMessages;
+     return formattedMessages.reverse();
     });
 
     const state = createState<AgentState>({
