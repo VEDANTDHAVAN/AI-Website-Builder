@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ai_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ai_site_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ai_site_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  ai-site-builder:
+    build: .
+    container_name: ai_site
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/ai_site_db"
+      NODE_ENV: production
+      PORT: 3000
+    # Don't mount source code in production container
+    # Instead rely on Docker image build artifacts
+    volumes:
+      - /app/node_modules    # keeps node_modules isolated
+      - ./.env:/app/.env:ro  # read-only mount of env file
+    command: >
+      sh -c "
+        echo '🚀 Running migrations...' &&
+        npx prisma migrate deploy &&
+        echo '✅ Starting Next.js app...' &&
+        npm start
+      "
+    # Optional: wait for Postgres startup before migration
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --spider http://localhost:3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
