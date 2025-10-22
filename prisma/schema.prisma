@@ -14,10 +14,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id String @id
+  email String? @unique
+  name String?
+  imageUrl String?
+  openaiApiKey String? // user-provided API KEY (encrypted)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects Project[]
+}
+
 model Project {
   id String @id @default(uuid())
   name String
   userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   messages Message[]
